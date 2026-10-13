@@ -18,8 +18,8 @@ from scipy.stats import (
     rankdata,
     wilcoxon,
 )
-from scipy.stats.stats import ttest_ind_from_stats, ttest_rel
-from statsmodels.sandbox.stats.multicomp import multipletests
+from scipy.stats import ttest_ind_from_stats, ttest_rel
+from statsmodels.stats.multitest import multipletests
 
 CorrectionLike = Literal[
     None,
