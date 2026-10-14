@@ -41,7 +41,7 @@ def fetch(name="Aneurisk65", *, data_home=None, return_X_y=False):
         ("patient", np.int_),
         ("code", "U8"),
         ("type", "U1"),
-        ("aneurysm location", np.float_),
+        ("aneurysm location", np.float64),
         ("left_right", "U2"),
     ]
 

@@ -181,9 +181,9 @@ def test_explicit_nested_folds() -> None:
     ],
 )
 def test_create_experiments_basic(
-    scoring: ScorerLike[np.typing.NDArray[np.float_], np.typing.NDArray[np.int_]],
-    expected_mean: np.typing.NDArray[np.float_],
-    expected_std: np.typing.NDArray[np.float_],
+    scoring: ScorerLike[np.typing.NDArray[np.float64], np.typing.NDArray[np.int_]],
+    expected_mean: np.typing.NDArray[np.float64],
+    expected_std: np.typing.NDArray[np.float64],
 ) -> None:
 
     with tempfile.TemporaryDirectory() as tmpdirname:
