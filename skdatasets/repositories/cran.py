@@ -28,7 +28,6 @@ from typing import (
 import numpy as np
 import pandas as pd
 import rdata
-from packaging.version import Version
 from sklearn.datasets import get_data_home
 from sklearn.utils import Bunch
 
@@ -91,6 +90,17 @@ def _get_latest_version_online(package_name: str, dataset_name: str) -> str:
     return parser.version
 
 
+def _cran_version_key(version: str) -> tuple[int, ...]:
+    """
+    Sort key for an R package version such as "1.2-3".
+
+    R versions are sequences of integers separated by "." or "-", and both
+    separators are equivalent ("1.2-3" is the same version as "1.2.3").
+
+    """
+    return tuple(int(part) for part in re.split(r"[.-]", version))
+
+
 def _get_latest_version_offline(package_name: str) -> str | None:
     """
     Get the latest downloaded version of the package.
@@ -102,16 +112,15 @@ def _get_latest_version_offline(package_name: str) -> str | None:
 
     downloaded_packages = tuple(home.glob(package_name + "_*.tar.gz"))
 
-    if downloaded_packages:
-        versions = [
-            Version(p.name[(len(package_name) + 1):-len(".tar.gz")])
-            for p in downloaded_packages
-        ]
+    # Keep the version strings as they are: they are part of the file name
+    versions = [
+        p.name[(len(package_name) + 1):-len(".tar.gz")]
+        for p in downloaded_packages
+    ]
+    versions = [v for v in versions if re.fullmatch(r"\d+([.-]\d+)+", v)]
 
-        versions.sort()
-        latest_version = versions[-1]
-
-        return str(latest_version)
+    if versions:
+        return max(versions, key=_cran_version_key)
 
     return None
 
