@@ -108,7 +108,9 @@ def _get_latest_version_offline(package_name: str) -> str | None:
     Returns None if not found.
 
     """
-    home = pathlib.Path(get_data_home())  # Should allow providing data home?
+    # Should allow providing data home?
+    # Packages are downloaded to <data home>/cran/<package>_<version>.tar.gz
+    home = pathlib.Path(get_data_home()) / "cran"
 
     downloaded_packages = tuple(home.glob(package_name + "_*.tar.gz"))
 
